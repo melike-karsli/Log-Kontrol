@@ -28,79 +28,66 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tarihsec = new System.Windows.Forms.DateTimePicker();
             this.kaynak_combo = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.logyazdır = new System.Windows.Forms.RichTextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.datagridrcguarddetay = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.datagridrestosepet = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.datagridrestosepet)).BeginInit();
+            this.datagridrcguard = new System.Windows.Forms.DataGridView();
+            this.button2 = new System.Windows.Forms.Button();
+            this.datagridhataraporu = new System.Windows.Forms.DataGridView();
+            this.dataGridToplamHatalarıGoster = new System.Windows.Forms.DataGridView();
+            this.label3 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.datagridrcguarddetay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.datagridrcguard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.datagridhataraporu)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridToplamHatalarıGoster)).BeginInit();
             this.SuspendLayout();
             // 
             // tarihsec
             // 
-            this.tarihsec.Location = new System.Drawing.Point(32, 15);
+            this.tarihsec.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.tarihsec.Location = new System.Drawing.Point(625, 62);
             this.tarihsec.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tarihsec.Name = "tarihsec";
-            this.tarihsec.Size = new System.Drawing.Size(200, 22);
+            this.tarihsec.Size = new System.Drawing.Size(295, 30);
             this.tarihsec.TabIndex = 0;
             // 
             // kaynak_combo
             // 
+            this.kaynak_combo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.kaynak_combo.FormattingEnabled = true;
-            this.kaynak_combo.Location = new System.Drawing.Point(256, 13);
+            this.kaynak_combo.Location = new System.Drawing.Point(972, 59);
             this.kaynak_combo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.kaynak_combo.Name = "kaynak_combo";
-            this.kaynak_combo.Size = new System.Drawing.Size(121, 24);
+            this.kaynak_combo.Size = new System.Drawing.Size(121, 33);
             this.kaynak_combo.TabIndex = 1;
             this.kaynak_combo.SelectedIndexChanged += new System.EventHandler(this.kaynak_combo_SelectedIndexChanged);
             // 
-            // textBox1
+            // datagridrcguarddetay
             // 
-            this.textBox1.Location = new System.Drawing.Point(444, 14);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 2;
-            // 
-            // logyazdır
-            // 
-            this.logyazdır.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.logyazdır.Location = new System.Drawing.Point(32, 51);
-            this.logyazdır.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.logyazdır.Name = "logyazdır";
-            this.logyazdır.Size = new System.Drawing.Size(1014, 137);
-            this.logyazdır.TabIndex = 4;
-            this.logyazdır.Text = "";
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(32, 540);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1014, 189);
-            this.dataGridView1.TabIndex = 5;
+            this.datagridrcguarddetay.AllowUserToAddRows = false;
+            this.datagridrcguarddetay.AllowUserToOrderColumns = true;
+            this.datagridrcguarddetay.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.datagridrcguarddetay.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.datagridrcguarddetay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.datagridrcguarddetay.Location = new System.Drawing.Point(36, 268);
+            this.datagridrcguarddetay.Name = "datagridrcguarddetay";
+            this.datagridrcguarddetay.RowHeadersWidth = 51;
+            this.datagridrcguarddetay.RowTemplate.Height = 24;
+            this.datagridrcguarddetay.Size = new System.Drawing.Size(1970, 146);
+            this.datagridrcguarddetay.TabIndex = 5;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(561, 14);
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.button1.Location = new System.Drawing.Point(846, 149);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(182, 30);
             this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
+            this.button1.Text = "LOG YAZDIR";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
@@ -110,60 +97,124 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label1.Location = new System.Drawing.Point(27, 190);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label1.Location = new System.Drawing.Point(34, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(313, 29);
+            this.label1.Size = new System.Drawing.Size(272, 25);
             this.label1.TabIndex = 9;
-            this.label1.Text = "RESTOSEPET TABLOSU";
+            this.label1.Text = "RCGUARD SİPARİŞ ÖZET";
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label2.Location = new System.Drawing.Point(27, 508);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label2.Location = new System.Drawing.Point(34, 240);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(281, 29);
+            this.label2.Size = new System.Drawing.Size(286, 25);
             this.label2.TabIndex = 10;
-            this.label2.Text = "POS CİHAZI TABLOSU";
+            this.label2.Text = "RCGUARD SİPARİŞ DETAY";
             // 
-            // datagridrestosepet
+            // datagridrcguard
             // 
-            this.datagridrestosepet.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.datagridrcguard.AllowUserToAddRows = false;
+            this.datagridrcguard.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.datagridrcguard.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.datagridrcguard.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.datagridrcguard.Location = new System.Drawing.Point(36, 62);
+            this.datagridrcguard.Name = "datagridrcguard";
+            this.datagridrcguard.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.datagridrcguard.RowTemplate.Height = 24;
+            this.datagridrcguard.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.datagridrcguard.Size = new System.Drawing.Size(495, 146);
+            this.datagridrcguard.TabIndex = 8;
+            this.datagridrcguard.SelectionChanged += new System.EventHandler(this.datagridrcguard_SelectionChanged);
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.button2.Location = new System.Drawing.Point(39, 435);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(405, 36);
+            this.button2.TabIndex = 11;
+            this.button2.Text = "HATA RAPORU GÖRÜNTÜLE";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // datagridhataraporu
+            // 
+            this.datagridhataraporu.AllowUserToAddRows = false;
+            this.datagridhataraporu.AllowUserToOrderColumns = true;
+            this.datagridhataraporu.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.datagridhataraporu.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.datagridhataraporu.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.datagridhataraporu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.datagridhataraporu.Location = new System.Drawing.Point(36, 488);
+            this.datagridhataraporu.Name = "datagridhataraporu";
+            this.datagridhataraporu.RowHeadersWidth = 51;
+            this.datagridhataraporu.RowTemplate.Height = 24;
+            this.datagridhataraporu.Size = new System.Drawing.Size(961, 469);
+            this.datagridhataraporu.TabIndex = 13;
+            // 
+            // dataGridToplamHatalarıGoster
+            // 
+            this.dataGridToplamHatalarıGoster.AllowUserToAddRows = false;
+            this.dataGridToplamHatalarıGoster.AllowUserToOrderColumns = true;
+            this.dataGridToplamHatalarıGoster.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridToplamHatalarıGoster.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridToplamHatalarıGoster.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridToplamHatalarıGoster.Location = new System.Drawing.Point(1034, 488);
+            this.dataGridToplamHatalarıGoster.Name = "dataGridToplamHatalarıGoster";
+            this.dataGridToplamHatalarıGoster.RowHeadersWidth = 51;
+            this.dataGridToplamHatalarıGoster.RowTemplate.Height = 24;
+            this.dataGridToplamHatalarıGoster.Size = new System.Drawing.Size(603, 469);
+            this.dataGridToplamHatalarıGoster.TabIndex = 14;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.datagridrestosepet.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.datagridrestosepet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datagridrestosepet.Location = new System.Drawing.Point(32, 247);
-            this.datagridrestosepet.Name = "datagridrestosepet";
-            this.datagridrestosepet.RowHeadersWidth = 51;
-            this.datagridrestosepet.RowTemplate.Height = 24;
-            this.datagridrestosepet.Size = new System.Drawing.Size(1014, 210);
-            this.datagridrestosepet.TabIndex = 8;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label3.Location = new System.Drawing.Point(1019, 446);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(244, 25);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "TOPLAM HATA SAYISI";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1484, 741);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.datagridrestosepet);
+            this.ClientSize = new System.Drawing.Size(1857, 1010);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.dataGridToplamHatalarıGoster);
+            this.Controls.Add(this.datagridhataraporu);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.datagridrcguarddetay);
+            this.Controls.Add(this.datagridrcguard);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.logyazdır);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.kaynak_combo);
             this.Controls.Add(this.tarihsec);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.datagridrestosepet)).EndInit();
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.datagridrcguarddetay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.datagridrcguard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.datagridhataraporu)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridToplamHatalarıGoster)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,13 +224,15 @@
 
         private System.Windows.Forms.DateTimePicker tarihsec;
         private System.Windows.Forms.ComboBox kaynak_combo;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.RichTextBox logyazdır;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView datagridrcguarddetay;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridView datagridrestosepet;
+        private System.Windows.Forms.DataGridView datagridrcguard;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridView datagridhataraporu;
+        private System.Windows.Forms.DataGridView dataGridToplamHatalarıGoster;
+        private System.Windows.Forms.Label label3;
     }
 }
 

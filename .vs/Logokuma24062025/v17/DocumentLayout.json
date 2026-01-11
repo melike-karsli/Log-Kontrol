@@ -1,33 +1,37 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\",
+  "WorkspaceRootPath": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# 2025\\c#\\Logokuma\\logokuma24062025\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|z:\\projeler\\c# restopos 2025\\logokuma\\logokuma24062025\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|solutionrelative:logokuma24062025\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|z:\\projeler\\c# 2025\\c#\\logokuma\\logokuma24062025\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# Restopos 2025\\Logokuma\\logokuma24062025\\rcguard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|solutionrelative:logokuma24062025\\rcguard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# Restopos 2025\\Logokuma\\logokuma24062025\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|solutionrelative:logokuma24062025\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# 2025\\c#\\Logokuma\\logokuma24062025\\migros.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# Restopos 2025\\Logokuma\\logokuma24062025\\migros.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|solutionrelative:logokuma24062025\\migros.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# 2025\\c#\\Logokuma\\logokuma24062025\\yemeksepeti.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# Restopos 2025\\Logokuma\\logokuma24062025\\yemeksepeti.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|solutionrelative:logokuma24062025\\yemeksepeti.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# 2025\\c#\\Logokuma\\logokuma24062025\\getir.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|solutionrelative:logokuma24062025\\getir.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# 2025\\c#\\Logokuma\\logokuma24062025\\logokurestosepetclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# Restopos 2025\\Logokuma\\logokuma24062025\\logokurestosepetclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|solutionrelative:logokuma24062025\\logokurestosepetclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# 2025\\c#\\Logokuma\\logokuma24062025\\logokuclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# Restopos 2025\\Logokuma\\logokuma24062025\\getir.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|solutionrelative:logokuma24062025\\getir.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|Z:\\Projeler\\C# Restopos 2025\\Logokuma\\logokuma24062025\\logokuclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{12BD6315-A873-47B3-BA38-63DE6983A017}|Logokuma24062025\\Logokuma24062025.csproj|solutionrelative:logokuma24062025\\logokuclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -38,29 +42,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\Form1.cs",
-              "RelativeDocumentMoniker": "Logokuma24062025\\Form1.cs",
-              "ToolTip": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\Form1.cs",
-              "RelativeToolTip": "Logokuma24062025\\Form1.cs",
-              "ViewState": "AgIAAIgCAAAAAAAAAADgv5ICAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T16:43:34.287Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\Form1.cs",
+              "DocumentMoniker": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\Form1.cs",
               "RelativeDocumentMoniker": "Logokuma24062025\\Form1.cs",
-              "ToolTip": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\Form1.cs [Design]",
+              "ToolTip": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\Form1.cs [Design]",
               "RelativeToolTip": "Logokuma24062025\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-16T20:54:00.266Z",
@@ -69,25 +59,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\Form1.cs",
+              "RelativeDocumentMoniker": "Logokuma24062025\\Form1.cs",
+              "ToolTip": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\Form1.cs",
+              "RelativeToolTip": "Logokuma24062025\\Form1.cs",
+              "ViewState": "AgIAADcEAAAAAAAAAAAiwEIEAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-24T16:43:34.287Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "rcguard.cs",
+              "DocumentMoniker": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\rcguard.cs",
+              "RelativeDocumentMoniker": "Logokuma24062025\\rcguard.cs",
+              "ToolTip": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\rcguard.cs",
+              "RelativeToolTip": "Logokuma24062025\\rcguard.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAUwCUAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-04T20:52:59.067Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "yemeksepeti.cs",
-              "DocumentMoniker": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\yemeksepeti.cs",
+              "DocumentMoniker": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\yemeksepeti.cs",
               "RelativeDocumentMoniker": "Logokuma24062025\\yemeksepeti.cs",
-              "ToolTip": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\yemeksepeti.cs",
+              "ToolTip": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\yemeksepeti.cs",
               "RelativeToolTip": "Logokuma24062025\\yemeksepeti.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBcAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABUAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-18T07:18:25.099Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "migros.cs",
-              "DocumentMoniker": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\migros.cs",
+              "DocumentMoniker": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\migros.cs",
               "RelativeDocumentMoniker": "Logokuma24062025\\migros.cs",
-              "ToolTip": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\migros.cs",
+              "ToolTip": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\migros.cs",
               "RelativeToolTip": "Logokuma24062025\\migros.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABQAAAAAAAAAAAAuwBoAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T19:10:14.797Z"
             },
@@ -95,21 +119,21 @@
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "logokurestosepetclass.cs",
-              "DocumentMoniker": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\logokurestosepetclass.cs",
+              "DocumentMoniker": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\logokurestosepetclass.cs",
               "RelativeDocumentMoniker": "Logokuma24062025\\logokurestosepetclass.cs",
-              "ToolTip": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\logokurestosepetclass.cs",
+              "ToolTip": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\logokurestosepetclass.cs",
               "RelativeToolTip": "Logokuma24062025\\logokurestosepetclass.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwB0AAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-21T09:25:06.273Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "getir.cs",
-              "DocumentMoniker": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\getir.cs",
+              "DocumentMoniker": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\getir.cs",
               "RelativeDocumentMoniker": "Logokuma24062025\\getir.cs",
-              "ToolTip": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\getir.cs",
+              "ToolTip": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\getir.cs",
               "RelativeToolTip": "Logokuma24062025\\getir.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -117,11 +141,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "logokuclass.cs",
-              "DocumentMoniker": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\logokuclass.cs",
+              "DocumentMoniker": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\logokuclass.cs",
               "RelativeDocumentMoniker": "Logokuma24062025\\logokuclass.cs",
-              "ToolTip": "Z:\\Projeler\\C# 2025\\c#\\Logokuma\\Logokuma24062025\\logokuclass.cs",
+              "ToolTip": "Z:\\Projeler\\C# Restopos 2025\\Logokuma\\Logokuma24062025\\logokuclass.cs",
               "RelativeToolTip": "Logokuma24062025\\logokuclass.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAAwDMAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

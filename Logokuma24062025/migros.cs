@@ -46,32 +46,6 @@ namespace Logokuma24062025
             public string itemNames { get; set; }
         }
 
-        // AŞAĞIDAKİ KISIM ESKİ YAPIDIR. YENİ YAPI ÜSTTEKİDİR.
-        //public class data
-        //{
-        //    public string id { get; set; }
-        //    public string totalPrice { get; set; }
-        //    public string discountedPrice { get; set; }
-        //    public string phoneNumber { get; set; }
-        //    public string customerFullName { get; set; }
-        //    public string paymentType { get; set; }
-        //    public string address { get; set; }
-        //    public string deliveryProvider { get; set; }
-        //    public List<products> products { get; set; }
-        //}
-
-        //public class products
-        //{
-        //    public string name { get; set; }
-        //    public string amount { get; set; }
-        //    public string price { get; set; }
-        //    public List<options> options { get; set; }
-        //}
-
-        //public class options
-        //{
-        //    public string itemNames { get; set; }
-        //    public string primaryPrice { get; set; }
-        //}
+        
     }
 }

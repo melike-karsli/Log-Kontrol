@@ -63,3 +63,29 @@ Z:\Projeler\C# 2025\c#\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.cspr
 Z:\Projeler\C# 2025\c#\Logokuma\Logokuma24062025\obj\Debug\Logokuma.35934969.Up2Date
 Z:\Projeler\C# 2025\c#\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.exe
 Z:\Projeler\C# 2025\c#\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.pdb
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\bin\Debug\Logokuma24062025.exe.config
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\bin\Debug\Logokuma24062025.exe
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\bin\Debug\Logokuma24062025.pdb
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\bin\Debug\Newtonsoft.Json.dll
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\bin\Debug\Newtonsoft.Json.xml
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.csproj.AssemblyReference.cache
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.Form1.resources
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.Properties.Resources.resources
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.csproj.GenerateResource.cache
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.csproj.CoreCompileInputs.cache
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma.35934969.Up2Date
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.exe
+Z:\Projeler\C# 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.pdb
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\bin\Debug\Newtonsoft.Json.dll
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\bin\Debug\Newtonsoft.Json.xml
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.csproj.AssemblyReference.cache
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.Form1.resources
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.csproj.GenerateResource.cache
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma24062025.csproj.CoreCompileInputs.cache
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\obj\Debug\Logokuma.35934969.Up2Date
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\bin\Debug\LogHataAnaliz.exe.config
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\bin\Debug\LogHataAnaliz.exe
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\bin\Debug\LogHataAnaliz.pdb
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\obj\Debug\LogHataAnaliz.Properties.Resources.resources
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\obj\Debug\LogHataAnaliz.exe
+Z:\Projeler\C# Restopos 2025\Logokuma\Logokuma24062025\obj\Debug\LogHataAnaliz.pdb

@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq; // Newtonsoft.Json kütüphanesi ile JSON verileri işlenebilir. 
+using Newtonsoft.Json.Linq; // Newtonsoft.Json kütüphanesi ile JSON verileri işlenebilir.
+
+
 
 namespace Logokuma24062025
 {
@@ -26,72 +32,97 @@ namespace Logokuma24062025
 
         private void DosyalariYukle()
         {
-            string klasorYolu = @"D:\RestoPOS\MY\LOG\";
 
-            if (Directory.Exists(klasorYolu)) //Belirtilen klasör  mevcut mu
-            {
-                string[] dosyalar = Directory.GetFiles(klasorYolu, "*.txt"); //Eğer klasör varsa, .txt uzantılı tüm dosyalar dosyalar dizisine alınır.
 
-                foreach (string dosyaYolu in dosyalar) //Her bir .txt dosyası için işlem yapılır.
+            string[] muhtemelKlasorler =
                 {
-                    string dosyaAdi = Path.GetFileName(dosyaYolu); //Dosyanın tam yolu içinden sadece adı alınır.Örn: Ankara_log1.txt
+                    @"C:\RestoPOS\MY\LOG\",
+                    @"D:\RestoPOS\MY\LOG\"
+                };
 
-                    string[] parcalar = dosyaAdi.Split('_'); //Dosya adı _ karakteriyle parçalanır
+            // Bu değişken log klasörünü tutacak
+            string klasorYolu = null;
 
-                    if (parcalar.Length > 0)
+            // C ve D içinde sırayla ara
+            foreach (string yol in muhtemelKlasorler)
+            {
+                if (Directory.Exists(yol))
+                {
+                    klasorYolu = yol;
+                    break;
+                }
+            }
+
+
+            string[] dosyalar = Directory.GetFiles(klasorYolu, "*.txt"); //Eğer klasör varsa, .txt uzantılı tüm dosyalar dosyalar dizisine alınır.
+
+            foreach (string dosyaYolu in dosyalar) //Her bir .txt dosyası için işlem yapılır.
+            {
+                string dosyaAdi = Path.GetFileName(dosyaYolu); //Dosyanın tam yolu içinden sadece adı alınır.Örn: Ankara_log1.txt
+
+                string[] parcalar = dosyaAdi.Split('_'); //Dosya adı _ karakteriyle parçalanır
+
+                if (parcalar.Length > 0)
+                {
+                    string ilkParca = parcalar[0]; //Parçalama sonucu en az bir parça varsa, ilk parça alınır 
+
+                    if (!kaynak_combo.Items.Contains(ilkParca)) //Eğer bu ilk parça ComboBox'ta (yani kaynak_combo) yoksa, listeye eklenir. Böylece her kaynak adı bir kez görünür.
                     {
-                        string ilkParca = parcalar[0]; //Parçalama sonucu en az bir parça varsa, ilk parça alınır 
-
-                        if (!kaynak_combo.Items.Contains(ilkParca)) //Eğer bu ilk parça ComboBox'ta (yani kaynak_combo) yoksa, listeye eklenir. Böylece her kaynak adı bir kez görünür.
-                        {
-                            kaynak_combo.Items.Add(ilkParca);
-                        }
+                        kaynak_combo.Items.Add(ilkParca);
                     }
                 }
             }
-            else
-            {
-                MessageBox.Show("Klasör bulunamadı.");
-            }
+
+
         }
 
         string[] satirlar;
         string DosyaTarihi;
 
-        private void kaynak_combo_SelectedIndexChanged(object sender, EventArgs e)    
-        {       
-            string secilenAd = kaynak_combo.SelectedItem.ToString();  //ComboBox’tan seçilen değeri secilenAd olarak alır.
-            string klasorYolu = @"D:\RestoPOS\MY\LOG\";
-            string[] dosyalar = Directory.GetFiles(klasorYolu, $"{secilenAd}_*.txt"); //D:\RestoPOS\MY\LOG\ klasöründe, secilenAd_ ile başlayan .txt dosyalarını bulur.
+        private void kaynak_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string secilenAd = kaynak_combo.SelectedItem.ToString();
 
-            logyazdır.Clear(); // Önce TextBox'ı temizle
+            // Önce C ve D sürücüsünü sırayla dene
+            string[] muhtemelKlasorler =
+            {
+                @"C:\RestoPOS\MY\LOG\",
+                @"D:\RestoPOS\MY\LOG\"
+            };
 
+            string klasorYolu = null;
+
+            foreach (string yol in muhtemelKlasorler)
+            {
+                if (Directory.Exists(yol))
+                {
+                    klasorYolu = yol;
+                    break;
+                }
+            }
+
+            if (klasorYolu == null)
+            {
+                MessageBox.Show("LOG klasörü C: veya D: sürücüsünde bulunamadı.");
+                return;
+            }
+
+            // 🔍 Seçilen kaynak adına göre dosyaları getir
+            string[] dosyalar = Directory.GetFiles(klasorYolu, $"{secilenAd}_*.txt");
+
+            // Eğer hiç dosya yoksa uyar
+            if (dosyalar.Length == 0)
+            {
+                MessageBox.Show($"{secilenAd} için log dosyası bulunamadı.");
+                return;
+            }
+
+            // Tarih seçimini al
             DosyaTarihi = tarihsec.Value.ToString("yyyyMMdd");
 
-            if (File.Exists(klasorYolu + secilenAd + "_" + DosyaTarihi + ".txt"))
-            {
-                logyazdır.LoadFile(klasorYolu + secilenAd + "_" + DosyaTarihi + ".txt", RichTextBoxStreamType.PlainText);
-            }
-            else
-            {
-                MessageBox.Show("bulunamadı");
-            }
-
-
-
-        foreach (string dosyaYolu in dosyalar)
-        {
-            satirlar = File.ReadAllLines(dosyaYolu); //Şu anki dosyaYolu dosyasındaki tüm satırları okur. Her satır bir string olacak şekilde bir dizi (string[] satirlar) oluşur.
 
         }
 
-        if (dosyalar.Length == 0)
-        {
-            logyazdır.Text = "Dosya bulunamadı.";
-        }
-
-
-        }
 
         public string FncIngenicoOdemeTip(string tip)
         {
@@ -208,34 +239,20 @@ namespace Logokuma24062025
         }
 
 
-        //string fnc_IngenicoBankaKod(string bankBKMID)  // Banka koduna göre açıklama döndürür.
-        //{
-        //    if (bankBKMID == "46")
-        //        return "AKBANK";
-        //    else if (bankBKMID == "64")
-        //        return "İŞBANK";
-        //    else if (bankBKMID == "62")
-        //        return "GARANTİ";
-        //    else if (bankBKMID == "0")
-        //        return "YEMEKÇEKİ";
-        //    else
-        //        return "Bilinmeyen Banka";
-        //}
-
         //TSM
         private void LogTSM(string json)
         {
 
 
-            if (dataGridView1.Columns.Count == 0)
+            if (datagridrcguarddetay.Columns.Count == 0)
             {
-                dataGridView1.Columns.Add("AdisyonNo", "Adisyon No");
-                dataGridView1.Columns.Add("SerialNo", "Serial No");
-                dataGridView1.Columns.Add("EkuNo", "EKU No");
-                dataGridView1.Columns.Add("ZNo", "Z No");
-                dataGridView1.Columns.Add("ReceiptNo", "Receipt No");
-                dataGridView1.Columns.Add("TransDateTime", "Tarih");
-                dataGridView1.Columns.Add("PaymentTypeEx" + ":" + "PaymentAmount", "Odeme Bilgisi");
+                datagridrcguarddetay.Columns.Add("AdisyonNo", "Adisyon No");
+                datagridrcguarddetay.Columns.Add("SerialNo", "Serial No");
+                datagridrcguarddetay.Columns.Add("EkuNo", "EKU No");
+                datagridrcguarddetay.Columns.Add("ZNo", "Z No");
+                datagridrcguarddetay.Columns.Add("ReceiptNo", "Receipt No");
+                datagridrcguarddetay.Columns.Add("TransDateTime", "Tarih");
+                datagridrcguarddetay.Columns.Add("PaymentTypeEx" + ":" + "PaymentAmount", "Odeme Bilgisi");
             }
 
             try
@@ -259,10 +276,10 @@ namespace Logokuma24062025
                     for (int i = 0; i < veri.Receipt.PaymentList.Count; i++)  //PaymentList içinde kaç ödeme varsa (Count kadar), her birini i indeksiyle teker teker geziyor.
                                                                               //  Yani örnek olarak:PaymentList[0] → 1.ödeme PaymentList[1] → 2.ödeme
                     {
-      
-                        odemetipi = veri.Receipt?.PaymentList[i].PaymentTypeEx.ToString()?? ""; // PaymentTypeEx değerini kullanarak ödeme tipini alır
-                        
-                        banka = veri.Receipt?.PaymentList[i].BankBKMID.ToString()??""; // Banka kodunu alır
+
+                        odemetipi = veri.Receipt?.PaymentList[i].PaymentTypeEx.ToString() ?? ""; // PaymentTypeEx değerini kullanarak ödeme tipini alır
+
+                        banka = veri.Receipt?.PaymentList[i].BankBKMID.ToString() ?? ""; // Banka kodunu alır
 
                         // Merchantid artık object olduğu için güvenli şekilde stringe çeviriyoruz
                         string merchantId = veri.Receipt.PaymentList[i].Merchantid?.ToString() ?? "";
@@ -277,7 +294,7 @@ namespace Logokuma24062025
                     }
                     odemeText = odemeText.TrimEnd('$'); // Sonundaki $ işaretini kaldırır
 
-                    dataGridView1.Rows.Add
+                    datagridrcguarddetay.Rows.Add
 
                     (
                         veri.AdisyonNo.ToString() ?? "",
@@ -302,20 +319,20 @@ namespace Logokuma24062025
         //TRENDYOL
         private void RestoSepetTrendyol(string json)
         {
-            if (datagridrestosepet.Columns.Count == 0)
+            if (datagridrcguard.Columns.Count == 0)
             {
-                datagridrestosepet.Rows.Clear();
-                datagridrestosepet.Columns.Clear();
-                datagridrestosepet.Columns.Add("kanal", "Satış kanalı");
-                datagridrestosepet.Columns.Add("id", "Sipariş No");
-                datagridrestosepet.Columns.Add("totalPrice", "Toplam Tutar");
-                datagridrestosepet.Columns.Add("totalSellerAmount", "Toplam İndirim");
-                datagridrestosepet.Columns.Add("callCenterPhone", "İletişim No");
-                datagridrestosepet.Columns.Add("Name", "Müşteri");              
-                datagridrestosepet.Columns.Add("paymentType", "Ödeme Tipi");
-             //   datagridrestosepet.Columns.Add("address", "Adres");
-                datagridrestosepet.Columns.Add("name", "Ana Ürün");
-                datagridrestosepet.Columns.Add("modifierNamesStr", "İçindekiler");
+                datagridrcguard.Rows.Clear();
+                datagridrcguard.Columns.Clear();
+                datagridrcguard.Columns.Add("kanal", "Satış kanalı");
+                datagridrcguard.Columns.Add("id", "Sipariş No");
+                datagridrcguard.Columns.Add("totalPrice", "Toplam Tutar");
+                datagridrcguard.Columns.Add("totalSellerAmount", "Toplam İndirim");
+                datagridrcguard.Columns.Add("callCenterPhone", "İletişim No");
+                datagridrcguard.Columns.Add("Name", "Müşteri");
+                datagridrcguard.Columns.Add("paymentType", "Ödeme Tipi");
+                //   datagridrestosepet.Columns.Add("address", "Adres");
+                datagridrcguard.Columns.Add("name", "Ana Ürün");
+                datagridrcguard.Columns.Add("modifierNamesStr", "İçindekiler");
             }
 
             var veri1 = JsonConvert.DeserializeObject<logokurestosepetclass.trendyollog>(json); //json isimli stringi, sizin tanımladığınız trendyollog class’ına çeviriyor.
@@ -323,15 +340,15 @@ namespace Logokuma24062025
             if (veri1?.content == null) return; //Eğer veri1 boşsa veya content listesi yoksa, fonksiyon duruyor.
 
 
-            foreach (var contentItem in veri1.content) //JSON içindeki content listesi üzerinde tek tek dönüyor.
+            foreach (var contentItem in veri1.content) //JSON içindeki content listesi üzerinde tek tek dönüyor. //contentItem oluşturduk listeyi buraya atadık
             {
-                var lines = contentItem?.lines ??  new List<logokurestosepetclass.lines>();  //Her contentItem'ın lines adlı bir listesi var.
-                 //Eğer lines null ise boş bir liste (new List<...>()) oluşturuyor.
-                //Böylece lines null olsa da foreach patlamıyor.
-                
+                var lines = contentItem?.lines ?? new List<logokurestosepetclass.lines>();  //Her contentItem'ın lines adlı bir listesi var.
+                                                                                            //Eğer lines null ise boş bir liste (new List<...>()) oluşturuyor.
+                                                                                            //Böylece lines null olsa da foreach patlamıyor.
+
                 foreach (var line in lines)
                 {
-                    // Modifier ürünler
+                    // Modifier ürünler // entity framework kullanarak yazdık
                     var modifierNames = line?.modifierProducts? //line değişkenin varsa (null değilse) → onun içindeki modifierProducts listesini al.
                                             .Select(m => m?.name ?? "") //modifierProducts listesindeki her bir m için:Eğer m null değilse → m.name al.Eğer m ya da m.name null ise → boş string "" döndür.
                                             .ToList() ?? new List<string>(); // .ToList() ?? new List<string>()Select sonucu bir listeye(List<string>) çevriliyor.Eğer yukarıdaki işlemlerin tamamı null dönerse, boş bir liste(new List<string>()) oluştur.
@@ -345,17 +362,17 @@ namespace Logokuma24062025
 
                     // aynı sipariş varsa ekleme
 
-                    bool zatenVar = datagridrestosepet.Rows
+                    bool zatenVar = datagridrcguard.Rows
                   .Cast<DataGridViewRow>()
                   .Any(r => r.Cells["id"].Value?.ToString() == contentItem.id.ToString());
 
-                    if (zatenVar) continue; 
+                    if (zatenVar) continue;
 
 
 
 
                     // Satırı DataGridView'e ekle
-                    datagridrestosepet.Rows.Add(
+                    datagridrcguard.Rows.Add(
 
 
                         "Trendyol",  // Sabit değer
@@ -369,10 +386,8 @@ namespace Logokuma24062025
                         contentItem?.callCenterPhone ?? "",
 
                         $"{contentItem?.customer?.firstName ?? ""} {contentItem?.customer?.lastName ?? ""} ",
-                        
-                        contentItem?.payment?.paymentType ?? "",
 
-                     //   $"{contentItem?.address?.city ?? ""}/{contentItem?.address?.district ?? ""}/{contentItem?.address?.neighborhood ?? ""}",
+                        contentItem?.payment?.paymentType ?? "",
 
                         line?.name ?? "",
 
@@ -386,16 +401,16 @@ namespace Logokuma24062025
         //GETIR
         private void Restosepetgetir(string json)
         {
-            if (datagridrestosepet.Columns.Count == 0)
+            if (datagridrcguard.Columns.Count == 0)
             {
-                datagridrestosepet.Rows.Clear();
-                datagridrestosepet.Columns.Clear();
-                datagridrestosepet.Columns.Add("kanal", "Satış kanalı");
-                datagridrestosepet.Columns.Add("id", "Sipariş No");
-                datagridrestosepet.Columns.Add("name", "Musteriadı");
-                datagridrestosepet.Columns.Add("clientPhoneNumber", "İletişim No");
-                datagridrestosepet.Columns.Add("product", "Urunler");
-                datagridrestosepet.Columns.Add("totalPrice", "toplamtutar");
+                datagridrcguard.Rows.Clear();
+                datagridrcguard.Columns.Clear();
+                datagridrcguard.Columns.Add("kanal", "Satış kanalı");
+                datagridrcguard.Columns.Add("id", "Sipariş No");
+                datagridrcguard.Columns.Add("name", "Musteriadı");
+                datagridrcguard.Columns.Add("clientPhoneNumber", "İletişim No");
+                datagridrcguard.Columns.Add("product", "Urunler");
+                datagridrcguard.Columns.Add("totalPrice", "toplamtutar");
 
             }
             var veri2 = JsonConvert.DeserializeObject<getir.getirlog>(json);
@@ -414,16 +429,15 @@ namespace Logokuma24062025
 
                 string modifierNamesStr = string.Join(", ", modifierNames);
 
-               
+
                 // Satırı DataGridView'e ekle
-                datagridrestosepet.Rows.Add(
+                datagridrcguard.Rows.Add(
 
                     "Getir",  // Sabit değer
                     veri2.id ?? "",                          // sipariş id
 
-                   // (veri2?.products.totalPrice != null ? veri2.products.totalPrice.ToString("F0") : "0"),
-                   // veri2.products.totalPrice,
-                   veri2.products.FirstOrDefault()?.totalPrice, // toplam fiyat
+
+                    veri2.products.FirstOrDefault()?.totalPrice, // toplam fiyat
 
                     product.optionCategories?
                            .SelectMany(oc => oc.options)
@@ -434,12 +448,12 @@ namespace Logokuma24062025
 
                     veri2.client?.name ?? "",                // müşteri adı
 
-                    veri2.paymentMethodText?.tr ?? "",                   
+                    veri2.paymentMethodText?.tr ?? "",
 
-                //    $"{veri2.client?.location?.lat ?? ""}/{ veri2.client?.location?.lon ?? "" }", // adres
+                    //    $"{veri2.client?.location?.lat ?? ""}/{ veri2.client?.location?.lon ?? "" }", // adres
 
                     product.name?.tr ?? "",                  // ürün adı (TR)
-                    
+
                     modifierNamesStr                         // opsiyonlar
                 );
             }
@@ -451,22 +465,22 @@ namespace Logokuma24062025
         //YEMEKSEPETİ
         private void Restosepetyemeksepeti(string json)
         {
-            if (datagridrestosepet.Columns.Count == 0)
+            if (datagridrcguard.Columns.Count == 0)
             {
-                datagridrestosepet.Rows.Clear();
-                datagridrestosepet.Columns.Clear();
+                datagridrcguard.Rows.Clear();
+                datagridrcguard.Columns.Clear();
 
-                datagridrestosepet.Columns.Add("kanal", "Satış kanalı");
-                datagridrestosepet.Columns.Add("code", "Sipariş Kodu");
-                datagridrestosepet.Columns.Add("grandTotal", "Toplam Tutar");
-                datagridrestosepet.Columns.Add("discounts", "Toplam indirim");
-                datagridrestosepet.Columns.Add("mobilePhone", "Müşteri Telefon");
-                datagridrestosepet.Columns.Add("firstname", "Müşteri Adı");
-                datagridrestosepet.Columns.Add("paymentType", "Ödeme Tipi");
-                datagridrestosepet.Columns.Add("createdAt", "Oluşturulma Tarihi");
-                datagridrestosepet.Columns.Add("platform", "Platform");    
-                datagridrestosepet.Columns.Add("products", "Ürünler");
-               
+                datagridrcguard.Columns.Add("kanal", "Satış kanalı");
+                datagridrcguard.Columns.Add("code", "Sipariş Kodu");
+                datagridrcguard.Columns.Add("grandTotal", "Toplam Tutar");
+                datagridrcguard.Columns.Add("discounts", "Toplam indirim");
+                datagridrcguard.Columns.Add("mobilePhone", "Müşteri Telefon");
+                datagridrcguard.Columns.Add("firstname", "Müşteri Adı");
+                datagridrcguard.Columns.Add("paymentType", "Ödeme Tipi");
+                datagridrcguard.Columns.Add("createdAt", "Oluşturulma Tarihi");
+                datagridrcguard.Columns.Add("platform", "Platform");
+                datagridrcguard.Columns.Add("products", "Ürünler");
+
             }
             var veri3 = JsonConvert.DeserializeObject<yemeksepeti.yemeksepetilog>(json);
             if (veri3?.products == null) return;
@@ -474,7 +488,7 @@ namespace Logokuma24062025
             foreach (var product in veri3.products)
             {
                 // Ürün bilgilerini birleştir
-               
+
                 string urunBilgisi = string.Join(", ",
                 veri3.products.Select(p => $"{p.name} (Adet: {p.quantity})"));
 
@@ -489,7 +503,7 @@ namespace Logokuma24062025
 
 
                 // Satırı DataGridView'e ekle
-                datagridrestosepet.Rows.Add(
+                datagridrcguard.Rows.Add(
 
                     "Yemeksepeti",  // Sabit değer
 
@@ -505,8 +519,8 @@ namespace Logokuma24062025
 
                     veri3.payment?.type ?? "",
 
-                   // adres,
-                    
+                    // adres,
+
                     urunBilgisi,
 
                     toppings
@@ -521,21 +535,21 @@ namespace Logokuma24062025
         //MİGROS
         private void Restosepetmigros(string json)
         {
-            if (datagridrestosepet.Columns.Count == 0)
+            if (datagridrcguard.Columns.Count == 0)
             {
-                datagridrestosepet.Rows.Clear();
-                datagridrestosepet.Columns.Clear();
+                datagridrcguard.Rows.Clear();
+                datagridrcguard.Columns.Clear();
 
-                datagridrestosepet.Columns.Add("kanal", "Satış kanalı");
-                datagridrestosepet.Columns.Add("id", "Sipariş No");
-                datagridrestosepet.Columns.Add("totalPrice", "Toplam Tutar");
-                datagridrestosepet.Columns.Add("discountedPrice", "Toplam İndirim");
-                datagridrestosepet.Columns.Add("phoneNumber", "İletişim No");
-                datagridrestosepet.Columns.Add("customerFullName", "Müşteri");
-                datagridrestosepet.Columns.Add("paymentType", "Ödeme Tipi");
-               // datagridrestosepet.Columns.Add("address", "Adres");
-                datagridrestosepet.Columns.Add("name", "Ana Ürün");
-                datagridrestosepet.Columns.Add("options", "İçindekiler");
+                datagridrcguard.Columns.Add("kanal", "Satış kanalı");
+                datagridrcguard.Columns.Add("id", "Sipariş No");
+                datagridrcguard.Columns.Add("totalPrice", "Toplam Tutar");
+                datagridrcguard.Columns.Add("discountedPrice", "Toplam İndirim");
+                datagridrcguard.Columns.Add("phoneNumber", "İletişim No");
+                datagridrcguard.Columns.Add("customerFullName", "Müşteri");
+                datagridrcguard.Columns.Add("paymentType", "Ödeme Tipi");
+                // datagridrestosepet.Columns.Add("address", "Adres");
+                datagridrcguard.Columns.Add("name", "Ana Ürün");
+                datagridrcguard.Columns.Add("options", "İçindekiler");
             }
 
             var veri4 = JsonConvert.DeserializeObject<migros.migroslog>(json);
@@ -550,7 +564,7 @@ namespace Logokuma24062025
                 {
                     if (order.products == null) continue;
 
-                   
+
                     string urunbilgisi = string.Join(", ",
 
                         order.products.Select(p =>
@@ -564,7 +578,7 @@ namespace Logokuma24062025
 
                     foreach (var product in order.products)
                     {
-                        datagridrestosepet.Rows.Add
+                        datagridrcguard.Rows.Add
                         (
                             "Migros",  // Sabit değer
 
@@ -591,7 +605,176 @@ namespace Logokuma24062025
             }
         }
 
-        
+        // Form seviyesinde (global)
+        private List<rcguard.rcguardlog> veriListesi = new List<rcguard.rcguardlog>();
+
+
+
+
+
+
+
+
+
+        private void Rcguard(string json)
+        {
+            // Kolonlar (sadece ilk seferde ekle)
+            if (datagridrcguard.Columns.Count == 0)
+            {
+                datagridrcguard.Rows.Clear();
+                datagridrcguard.Columns.Clear();
+                datagridrcguard.Columns.Add("orderSource", "Satış Kanalı");
+                datagridrcguard.Columns.Add("orderTypeText", "Satış Tipi");
+                datagridrcguard.Columns.Add("orderid", "Sipariş No");
+                datagridrcguard.Columns.Add("orderDate", "Sipariş Tarihi");
+            }
+
+
+            //JSON bir dizi (array) ise her elemanı tek tek işliyor. JSON tek bir obje ise onu işliyor. JSON geçersiz ya da beklenmeyen türde ise işlem yapmıyor.
+            //Sonrasında her JSON objesini rcguard.rcguardlog modeline dönüştürüp AddIfNotExists() metoduna gönderiyor.
+
+            if (string.IsNullOrWhiteSpace(json)) return;
+            try
+            {
+                var token = JToken.Parse(json);
+
+                if (token is JArray arr)
+                {
+                    foreach (var item in arr)
+                    {
+                        // JObject -> model'e dönüştür
+                        var veri = item.ToObject<rcguard.rcguardlog>(); //Her eleman rcguardlog class'ına dönüştürülüyor.
+                        AddIfNotExists(veri, item.ToString());
+                    }
+                }
+                else if (token is JObject obj)
+                {
+                    var veri = obj.ToObject<rcguard.rcguardlog>(); //JSON tek obje ise ({...}) direkt model’e çeviriliyor.
+                    AddIfNotExists(veri, obj.ToString());
+                }
+                else
+                {
+                    //JSON string, sayı, boolean vs. ise işlem yapma.
+                    return;
+                }
+            }
+            catch (JsonReaderException jex) // JSON bozuksa veya beklenmeyen hata olursa debug’a yazılıyor.
+            {
+                Debug.WriteLine("JSON parse error in Rcguard: " + jex.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Rcguard unexpected error: " + ex.Message);
+            }
+        }
+
+        private void AddIfNotExists(rcguard.rcguardlog veri, string rawJson) //AddIfNotExists() ile tekrarlayan veri eklemeyi engeller
+        {
+            if (veri == null) return;
+            if (string.IsNullOrEmpty(veri.orderid)) return;  //orderid yoksa işlem yapılmaz.
+
+            // Eğer zaten sözlükte varsa tekrar ekleme
+            if (siparisJsonlari.ContainsKey(veri.orderid)) return;
+
+            // Sözlüğe kaydet (detay için saklıyoruz)
+            siparisJsonlari[veri.orderid] = rawJson;
+
+            // DataGrid'de aynı orderid var mı kontrol et
+            bool zatenVar = datagridrcguard.Rows
+                .Cast<DataGridViewRow>()
+                .Any(r => r.Cells["orderid"].Value?.ToString() == veri.orderid);
+
+            if (zatenVar) return;
+
+            // Satırı ekle
+            datagridrcguard.Rows.Add(
+                veri.orderSource ?? "",
+                veri.orderTypeText ?? "",
+                veri.orderid ?? "",
+                veri.orderDate ?? ""
+            );
+        }
+
+
+        private void Rcguarddetay(string json)
+        {
+            if (datagridrcguarddetay.Columns.Count == 0)
+            {
+                datagridrcguarddetay.Columns.Clear();
+                datagridrcguarddetay.Columns.Add("client", "Müşteri Adı");
+                datagridrcguarddetay.Columns.Add("menu", "Ürün Adı");
+                datagridrcguarddetay.Columns.Add("product", "Ürün Detayı");
+                datagridrcguarddetay.Columns.Add("price", "Ürün Tutarı");
+                datagridrcguarddetay.Columns.Add("payments", "Toplam Tutar");
+            }
+
+            datagridrcguarddetay.Rows.Clear();
+
+            List<rcguard.rcguardlog> siparisler;
+
+            try
+            {
+                if (json.TrimStart().StartsWith("["))
+                    siparisler = JsonConvert.DeserializeObject<List<rcguard.rcguardlog>>(json);
+                else
+                    siparisler = new List<rcguard.rcguardlog>
+            {
+                JsonConvert.DeserializeObject<rcguard.rcguardlog>(json)
+            };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("JSON parse hatası: " + ex.Message);
+                return;
+            }
+
+            foreach (var s in siparisler)
+            {
+                string toplamTutar = s.payments?.Count > 0 ? s.payments[0].paymentAmount : "";
+
+                // 🔥 MENÜLERİ TEK TEK EKLEYELİM
+                if (s.menus != null && s.menus.Count > 0)
+                {
+                    foreach (var menu in s.menus)  // ←←← **TÜM MENÜLER**
+                    {
+
+                        decimal fiyat = decimal.Parse(menu.price.ToString(), CultureInfo.InvariantCulture);
+                        string menuAd = menu.name;
+                        string urunler = "";
+
+                        if (menu.products != null && menu.products.Count > 0)
+                            urunler = string.Join(", ", menu.products.Select(p => p.name));
+
+                        datagridrcguarddetay.Rows.Add(
+                            s.client?.name ?? "",
+                            menuAd,
+                            urunler,
+                            fiyat,
+                            toplamTutar
+                        );
+                    }
+                }
+
+                // 🔥 Eğer menus yoksa products gösterilir
+                else if (s.products != null && s.products.Count > 0)
+                {
+                    decimal fiyat = s.products.Sum(p =>
+                        Convert.ToDecimal(p.price) * Convert.ToDecimal(p.quantity));
+
+                    string urunler = string.Join(", ", s.products.Select(p => p.name));
+
+                    datagridrcguarddetay.Rows.Add(
+                        s.client?.name ?? "",
+                        "",
+                        urunler,
+                        fiyat,
+                        toplamTutar
+                    );
+                }
+            }
+        }
+
+
 
 
 
@@ -604,21 +787,54 @@ namespace Logokuma24062025
 
 
             // DataGridView ayarları
-            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            //datagridrestosepet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            datagridrcguarddetay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            datagridrcguarddetay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
-            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            //datagridrestosepet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+
+
+            datagridrcguard.RowHeadersVisible = false;
+            datagridrcguarddetay.RowHeadersVisible = false;
 
 
             // Önce DataGridView temizle
-            dataGridView1.Rows.Clear();
-            datagridrestosepet.Rows.Clear();
-            
-            
+            datagridrcguarddetay.Rows.Clear();
+            datagridrcguard.Rows.Clear();
+            siparisJsonlari.Clear();
 
-            string klasorYolu = @"D:\RestoPOS\MY\LOG\";
+
+
+            // Kullanılabilecek klasör yolları
+            string[] muhtemelKlasorler =
+            {
+                @"C:\RestoPOS\MY\LOG\",
+                @"D:\RestoPOS\MY\LOG\"
+            };
+
+            string klasorYolu = null;
+
+            // C ve D sürücüsünde klasörü ara
+            foreach (string yol in muhtemelKlasorler)
+            {
+                if (Directory.Exists(yol))
+                {
+                    klasorYolu = yol;
+                    break;
+                }
+            }
+
+            if (klasorYolu == null)
+            {
+                MessageBox.Show("LOG klasörü C: veya D: sürücüsünde bulunamadı.");
+                return;
+            }
+
+
+
+
+
+
+
             string secilen = kaynak_combo.SelectedItem?.ToString();
 
             if (string.IsNullOrEmpty(secilen))
@@ -640,66 +856,617 @@ namespace Logokuma24062025
                 return;
             }
 
-            // Dosyayı satır satır oku
-            
+            //Dosyayı satır satır oku
+
             string[] satirlar = File.ReadAllLines(dosyaYolu, Encoding.GetEncoding("windows-1254"));
-
-
 
             foreach (string satir in satirlar)
             {
-                int jsonStart = satir.IndexOf('{');
-                int jsonEnd = satir.LastIndexOf('}');
+                string json = ExtractJson(satir);
 
-                if (jsonStart >= 0 && jsonEnd > jsonStart)
+                if (json == null) continue;
+
+                if (json.Contains("kioskOrderNumber"))
                 {
-                    string json = satir.Substring(jsonStart, jsonEnd - jsonStart + 1);
-
-
-
-                    HashSet<string> uniqueIds = new HashSet<string>(); //HashSet, aynı değeri birden fazla saklamaz.
-
-                    // sondan başa doğru dönmek lazım (Sondan başa dönmek, silme sırasında index kaymasını önlüyor.)
-                    for (int i = datagridrestosepet.Rows.Count - 1; i >= 0; i--)
-                    {
-                        var row = datagridrestosepet.Rows[i];
-                        var idValue = row.Cells["id"].Value?.ToString(); //Her satırdaki "id" hücresini aldık:
-
-                        if (string.IsNullOrEmpty(idValue)) continue;
-
-                        if (uniqueIds.Contains(idValue)) //Eğer bu id daha önce HashSet’te varsa → satırı sildik.
-                        {
-                            datagridrestosepet.Rows.RemoveAt(i); // duplicate sil
-                        }
-                        else
-                        {
-                            uniqueIds.Add(idValue); // ilk defa gördüysek listeye ekle
-                        }
-                    }
-
-                    
- 
-
-
-                // Burada hangi sisteme ait olduğunu kontrol et
-                if (satir.Contains("Ingenico"))
-                        LogTSM(json);
-
-                    else if (satir.Contains("supplierId") && satir.Contains("storeId"))
-                        RestoSepetTrendyol(json);
-
-                    else if (satir.Contains("\"confirmationId\""))
-                        Restosepetgetir(json);
-
-                    else if (satir.Contains("\"localInfo\"") && satir.Contains("\"expiryDate\""))
-                        Restosepetyemeksepeti(json);
-
-                    else if (satir.Contains("\"customerFullName\""))
-                        Restosepetmigros(json);
+                    Rcguard(json);
                 }
+
+
+
+                var token = JToken.Parse(json);
+
+                if (token is JArray arr)
+                {
+                    foreach (var item in arr)
+                    {
+                        string orderid = item["orderid"]?.ToString();
+                        if (string.IsNullOrEmpty(orderid)) continue;
+                        if (siparisJsonlari.ContainsKey(orderid)) continue;
+
+                        string itemJson = item.ToString();
+                        siparisJsonlari[orderid] = itemJson;
+
+                        datagridrcguard.Rows.Add(orderid, "", itemJson);
+                    }
+                }
+
+
+
+            }
+
+
+        }
+        string ExtractJson(string line)
+        {
+            int startBracket = line.IndexOf('[');
+            int startBrace = line.IndexOf('{');
+
+            // Önce [ ile başlayan JSON'u kontrol et
+            if (startBracket >= 0 && (startBracket < startBrace || startBrace < 0))
+            {
+                int depth = 0;
+                for (int i = startBracket; i < line.Length; i++)
+                {
+                    if (line[i] == '[') depth++;
+                    else if (line[i] == ']') depth--;
+
+                    if (depth == 0)
+                        return line.Substring(startBracket, i - startBracket + 1);
+                }
+            }
+
+            // { ile başlayan JSON
+            if (startBrace >= 0)
+            {
+                int depth = 0;
+                for (int i = startBrace; i < line.Length; i++)
+                {
+                    if (line[i] == '{') depth++;
+                    else if (line[i] == '}') depth--;
+
+                    if (depth == 0)
+                        return line.Substring(startBrace, i - startBrace + 1);
+                }
+            }
+
+            return null;
+        }
+
+
+
+
+
+
+
+        //datagridrcguard taki seçilen satırın datagridrcguarddetay a yazılması
+        private Dictionary<string, string> siparisJsonlari = new Dictionary<string, string>();
+        //sözlük tanımlandı.Key (anahtar) → orderid (her siparişin benzersiz kimliği) Value (değer) → o siparişin JSON formatındaki detay verisi 
+        private void datagridrcguard_SelectionChanged(object sender, EventArgs e)
+        {
+            if (datagridrcguard.SelectedRows.Count == 0) return; //hiç satır seçilmediyse çık
+
+            string secilenOrderId = datagridrcguard.SelectedRows[0].Cells["orderid"].Value?.ToString(); //seçilen satırdaki orderid yi al
+            if (string.IsNullOrEmpty(secilenOrderId)) return; //orderid boşsa metot çıkış yapar
+
+            if (siparisJsonlari.TryGetValue(secilenOrderId, out string detayJson))
+            //sözlükten json verisini al-siparisJsonlari içinde anahtar olarak secilenOrderId var mı diye bakar-arsa, onun değerini detayJson değişkenine atar.-Yoksa hiçbir şey yapmaz (false döner).
+            {
+                // sadece burayı çağırıyoruz
+                Rcguarddetay(detayJson);
             }
         }
 
-       
+
+
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            // Aranacak klasör yolları
+            string[] muhtemelKlasorler =
+            {
+                @"C:\RestoPOS\MY\LOG\",
+                @"D:\RestoPOS\MY\LOG\"
+            };
+
+            string klasorYolu = null;
+
+            // Mevcut olanı bul
+            foreach (string yol in muhtemelKlasorler)
+            {
+                if (Directory.Exists(yol))
+                {
+                    klasorYolu = yol;
+                    break;
+                }
+            }
+
+            if (klasorYolu == null)
+            {
+                MessageBox.Show("LOG klasörü C: veya D: sürücüsünde bulunamadı.");
+                return;
+            }
+
+
+
+            string secilen = kaynak_combo.SelectedItem?.ToString();
+
+            if (string.IsNullOrEmpty(secilen))
+            {
+                MessageBox.Show("Lütfen bir kaynak seçin.");
+                return; //metodu durdur
+            }
+
+            string dosyaTarihi = tarihsec.Value.ToString("yyyyMMdd");
+            string dosyaYolu = Path.Combine(klasorYolu, $"{secilen}_{dosyaTarihi}.txt"); //dosyaYolu = C:\RestoPOS\MY\LOG\RcGuard_20251105.txt
+
+            if (!File.Exists(dosyaYolu))
+            {
+                MessageBox.Show("Seçilen tarihe ait log bulunamadı.");
+                return;
+            }
+
+            datagridhataraporu.Rows.Clear();
+            //datagridhataraporu.RowHeadersVisible = false;
+
+            if (datagridhataraporu.Columns.Count == 0)
+            {
+                datagridhataraporu.Columns.Add("Olay", "Olay");
+                datagridhataraporu.Columns.Add("Zaman", "Olayın Gerçekleştiği Zaman");
+                datagridhataraporu.Columns.Add("Süre", "Durma-Başlama Süresi");
+                //datagridhataraporu.Columns.Add("Sayı", "Hata Sayısı");
+            }
+
+            string[] satirlar = File.ReadAllLines(dosyaYolu, Encoding.GetEncoding("windows-1254")); //okur, her satırı bir string dizisine koyar.
+
+            DateTime? sonDurma = null; //Servisin durduğu zamanı saklamak için. Başlangıçta null.
+            int hataSayisi = 0; //databasedeki Toplam hata sayısını saymak için.
+            int hatasayisi2 = 0; //servisteki Toplam hata sayısını saymak için.
+            int hatasayisi3 = 0; //Bilinen böyle bir ana bilgisayar yok hatasını saymak için.
+            int hataSayisi4 = 0; //Istek Hata : A connection attempt failed because the connected party did not properly respond after a period of time hatasını saymak için.
+
+
+            //database hatası hesaplaması ıcın değişken tanımlama
+            DateTime? ilkDatabaseKopma = null;
+            DateTime? sonDatabaseKopma = null;
+
+
+
+         
+
+
+
+                // İnternet kopması (No such host is known)
+                bool hostHataAktif = false;
+                DateTime? hostHataBaslangic = null;
+                bool httpsSeen = false;
+                bool gelenVeriSeen = false;
+                int successPairCount = 0;
+
+                // Server ulaşılamadı (A connection attempt failed)
+                bool baglantiHataAktif = false;
+                DateTime? baglantiHataBaslangic = null;
+                bool httpsSeen2 = false;
+                bool gelenVeriSeen2 = false;
+                int successPairCount2 = 0;
+
+
+
+
+            foreach (string satir in satirlar) // satırlarda dolaşma
+            {
+                DateTime tarih = ExtractDate(satir);
+                if (tarih == DateTime.MinValue)
+                    continue;
+
+
+
+                // -----------------------------------------------------
+                // 1) HER ZAMAN EN ÖNCE HTTPS KONTROLÜ (HATA BİTTİ Mİ?)
+                //// -----------------------------------------------------
+                //if (baglantiHataAktif && satir.Contains("https://"))
+                //{
+                //    baglantiHataAktif = false;
+
+                //    TimeSpan fark = tarih - baglantiHataBaslangic.Value;
+                //    string sure = $"{(int)fark.TotalMinutes} dk {fark.Seconds} sn";
+
+                //    datagridhataraporu.Rows.Add(
+                //        "Servera Ulaşıldı – Bağlantı Hatası Düzeldi",
+                //        tarih.ToString("dd.MM.yyyy HH:mm:ss"),
+                //        sure
+                //    );
+
+                //    continue;   // başka kontrole gerek yok
+                //}
+
+
+
+
+                // -----------------------------------------------------
+                // 2) CONNECTION FAILED (HATA BAŞLANGICI)
+                // -----------------------------------------------------
+                bool baglantiError =
+                    satir.Contains("Istek Hata : A connection attempt failed") ||
+                    satir.Contains("connected host has failed to respond");
+                
+                if (baglantiError)
+                {
+                    if (!baglantiHataAktif)
+                    {
+                        hataSayisi4++;
+
+                        baglantiHataAktif = true;
+                        baglantiHataBaslangic = tarih;
+
+                        datagridhataraporu.Rows.Add(
+                            "Servera Ulaşılamadı – Bağlantı Hatası Başladı",
+                            tarih.ToString("dd.MM.yyyy HH:mm:ss"),
+                            ""
+                        );
+                    }
+
+                    httpsSeen2 = false;
+                    gelenVeriSeen2 = false;
+                    successPairCount2 = 0;
+
+                    continue;
+                }
+
+
+                // BAŞARI SATIRLARI
+                if (baglantiHataAktif)
+                {
+                    if (satir.StartsWith("https://"))
+                    {
+                        httpsSeen2 = true;
+                        continue;
+                    }
+
+                    if (satir.Contains("Gelen Veri : []") || satir.Contains("Gelen Veri : [{"))
+                    {
+                        gelenVeriSeen2 = true;
+                    }
+
+                    // HTTPS → Gelen Veri çifti yakalandı
+                    if (httpsSeen2 && gelenVeriSeen2)
+                    {
+                        successPairCount2++;
+
+                        httpsSeen2 = false;
+                        gelenVeriSeen2 = false;
+                    }
+
+                    // 2 çift → hata bitti
+                    if (successPairCount2 >= 2)
+                    {
+                        TimeSpan fark = tarih - baglantiHataBaslangic.Value;
+                        string sure = $"{(int)fark.TotalMinutes} dk {fark.Seconds} sn";
+
+                        datagridhataraporu.Rows.Add(
+                            "Servera Ulaşıldı – Bağlantı Hatası Bitti",
+                            tarih.ToString("dd.MM.yyyy HH:mm:ss"),
+                            sure
+                        );
+
+                        baglantiHataAktif = false;
+                        baglantiHataBaslangic = null;
+                        successPairCount2 = 0;
+                        httpsSeen2 = false;
+                        gelenVeriSeen2 = false;
+                    }
+                }
+
+
+
+
+                // -----------------------------------------------------
+                // 3) NO SUCH HOST (DNS HATASI)
+                // -----------------------------------------------------
+
+                bool hostError =
+                 satir.Contains("Istek Hata : No such host is known") ||
+                 satir.Contains("Istek Hata : Bilinen böyle bir ana bilgisayar yok");
+                
+                if (hostError)
+                {
+                    
+
+                    if (!hostHataAktif)
+                    {
+                        hatasayisi3++;
+
+                        hostHataAktif = true;
+                        hostHataBaslangic = tarih;
+
+                        datagridhataraporu.Rows.Add(
+                            "Internetinizin Bağlantısı Koptu",
+                            tarih.ToString("dd.MM.yyyy HH:mm:ss"),
+                            ""
+                        );
+                    }
+
+                    // hata gelince başarı algılayıcıları sıfırlanır
+                    httpsSeen = false;
+                    gelenVeriSeen = false;
+                    successPairCount = 0;
+
+                    continue;
+                }
+
+                // BAŞARI SATIRLARI
+                if (hostHataAktif)
+                {
+                    if (satir.StartsWith("https://"))
+                    {
+                        httpsSeen = true;
+                        continue;
+                    }
+
+                    if (satir.Contains("Gelen Veri : []") || satir.Contains("Gelen Veri : [{"))
+                    {
+                        gelenVeriSeen = true;
+                    }
+
+                    // HTTPS → Gelen Veri çifti tamamlandığında
+                    if (httpsSeen && gelenVeriSeen)
+                    {
+                        successPairCount++;
+
+                        httpsSeen = false;
+                        gelenVeriSeen = false;
+                    }
+
+                    // 2 çift olunca düzelmiş kabul et
+                    if (successPairCount >= 2)
+                    {
+                        TimeSpan fark = tarih - hostHataBaslangic.Value;
+                        string sure = $"{(int)fark.TotalMinutes} dk {fark.Seconds} sn";
+
+                        datagridhataraporu.Rows.Add(
+                            "Internetiniz Düzeldi",
+                            tarih.ToString("dd.MM.yyyy HH:mm:ss"),
+                            sure
+                        );
+
+                        // reset
+                        hostHataAktif = false;
+                        hostHataBaslangic = null;
+                        successPairCount = 0;
+                        httpsSeen = false;
+                        gelenVeriSeen = false;
+                    }
+                }
+
+
+
+
+
+
+
+                // -----------------------------------------------------
+                // 5) DataBase Bağlantısı Koptu
+                // -----------------------------------------------------
+                if (satir.Contains("DataBase Bağlantısı Koptu! (Disconnect)") ||
+                    satir.Contains("DataBase Baglantisi Koptu! (Disconnect)"))
+
+                {
+                    hataSayisi++;
+                    sonDatabaseKopma = tarih;
+
+                    datagridhataraporu.Rows.Add("DataBase Koptu!", tarih.ToString("dd.MM.yyyy HH:mm:ss"), "");
+                    continue;
+                }
+
+                if (satir.Contains("DataBase Bağlandı. (Connect)") ||
+                    satir.Contains("DataBase Baglandi. (Connect)"))
+
+                {
+                    DateTime baslamazamani = tarih;
+                    string sure = "";
+
+
+                    if (sonDatabaseKopma != null)
+                    {
+                        TimeSpan fark = baslamazamani - sonDatabaseKopma.Value;
+                        sure = $"{(int)fark.TotalMinutes} dk {fark.Seconds} sn";
+                    }
+
+                    datagridhataraporu.Rows.Add(
+                        "Database Bağlandı",
+                        baslamazamani.ToString("dd.MM.yyyy HH:mm:ss"),
+                        sure
+                    );
+
+                    sonDatabaseKopma = null;
+                    continue;
+                }
+
+
+
+
+
+
+                // -----------------------------------------------------
+                // 6) SERVİS DURDU
+                // -----------------------------------------------------
+                if (satir.Contains("RcGuard Servis Durdu.(Destroy)") ||
+                        satir.Contains("RcGuard Servis Kapandı.(ShutDown)"))
+                {
+                    hatasayisi2++;
+                    sonDurma = tarih; //Servisin durduğu zaman kaydediliyor.eğer sonra servis tekrar başlarsa, bu zaman ile karşılaştırılıp ne kadar süre durduğu hesaplanacak.
+
+                    datagridhataraporu.Rows.Add(
+                            "Bilgisayar kapandı ya da restocell durdur yapıldı",
+                            tarih.ToString("dd.MM.yyyy HH:mm:ss"),
+                            ""
+                        );
+
+                    continue;
+                }
+
+                // -----------------------------------------------------
+                // 7) SERVİS BAŞLADI
+                // -----------------------------------------------------
+                if (satir.Contains("RcGuard Servis Başladı.(Start)") ||
+                    satir.Contains("RcGuard Servis Baþladý.(Start)") ||
+                    satir.Contains("RcGuard Servis Basladi.(Start)"))
+                {
+                    DateTime baslamaZamani = tarih; //Servisin başladığı an kaydediliyor.
+                    string sure = "";
+
+                    if (sonDurma != null) //daha önce bir durma zamanı kaydedildiyse 
+                    {
+                        TimeSpan fark = baslamaZamani - sonDurma.Value; //başlama zamanı ile durma zamanı arasındaki fark hesaplanıyor.
+                        sure = $"{(int)fark.TotalMinutes} dk {fark.Seconds} sn"; //fark dakika ve saniye cinsinden formatlanıyor.
+                    }
+
+                    datagridhataraporu.Rows.Add(
+                        "Bilgisayar açıldı ya da restocell başlat yapıldı",
+                        baslamaZamani.ToString("dd.MM.yyyy HH:mm:ss"),
+                        sure
+                    );
+
+                    sonDurma = null;
+                    continue;
+                }
+            }
+
+
+
+            // Log okuma tamamlandıktan sonra
+
+        
+
+
+
+
+
+            dataGridToplamHatalarıGoster.Columns.Clear();
+            dataGridToplamHatalarıGoster.Rows.Clear();
+
+            dataGridToplamHatalarıGoster.Columns.Add("Olay", "Olay");
+            dataGridToplamHatalarıGoster.Columns.Add("Sayı", "Hata Sayısı");
+
+            dataGridToplamHatalarıGoster.Rows.Add("Toplam 'DataBase Bağlantısı Koptu' hatası sayısı:", hataSayisi);
+            dataGridToplamHatalarıGoster.Rows.Add("Toplam 'Bilgisayar Kapandı ya da Restocell Durduruldu' hatası sayısı:", hatasayisi2);
+            dataGridToplamHatalarıGoster.Rows.Add("Internet Hatası sayısı", hatasayisi3);
+            dataGridToplamHatalarıGoster.Rows.Add("Servera Ulaşılamadı – Bağlantı Hatası sayısı", hataSayisi4);
+
+        }
+
+
+
+        private DateTime ExtractDate(string satir)  //Yalnızca satırın sonunda bulunan tarih-saatleri kabul eder
+        {
+            if (string.IsNullOrWhiteSpace(satir))
+                return DateTime.MinValue;
+
+            // Sadece satır sonundaki tarihi yakalar
+            var match = Regex.Match(satir, @"(\d{1,2}[./]\d{1,2}[./]\d{4}\s\d{2}:\d{2}:\d{2})\s*$");
+
+            if (!match.Success)  //Başarısızsa çık
+                return DateTime.MinValue;
+
+            string tarihStr = match.Groups[1].Value;
+
+            string[] formats =
+            {
+                "dd.MM.yyyy HH:mm:ss",
+                "d.M.yyyy HH:mm:ss",
+                "dd/MM/yyyy HH:mm:ss",
+                "d/M/yyyy HH:mm:ss"
+            };
+
+            if (DateTime.TryParseExact(tarihStr, formats, CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out DateTime tarih))  // parse et
+            {
+                return tarih;
+            }
+
+            return DateTime.MinValue;
+        }
+
+
+
+
+        ////hataraporu detay
+        //private void button3_Click_1(object sender, EventArgs e)
+        //{
+        //    string klasorYolu = @"D:\RestoPOS\MY\LOG\";
+        //    string secilen = kaynak_combo.SelectedItem?.ToString();
+
+        //    if (string.IsNullOrEmpty(secilen))
+        //    {
+        //        MessageBox.Show("Lütfen bir kaynak seçin.");
+        //        return; //metodu durdur
+        //    }
+
+        //    string dosyaTarihi = tarihsec.Value.ToString("yyyyMMdd");
+        //    string dosyaYolu = Path.Combine(klasorYolu, $"{secilen}_{dosyaTarihi}.txt"); //dosyaYolu = D:\RestoPOS\MY\LOG\RcGuard_20251105.txt
+
+        //    if (!File.Exists(dosyaYolu))
+        //    {
+        //        MessageBox.Show("Seçilen tarihe ait log bulunamadı.");
+        //        return;
+        //    }
+
+        //    datagridkontrol.Rows.Clear();
+        //    datagridkontrol.RowHeadersVisible = false;
+
+        //    if (datagridkontrol.Columns.Count == 0)
+        //    {
+        //        datagridkontrol.Columns.Add("Olay", "Olay");
+        //        datagridkontrol.Columns.Add("Zaman", "Zaman");
+               
+
+        //    }
+
+
+        //    string[] satirlar = File.ReadAllLines(dosyaYolu, Encoding.GetEncoding("windows-1254"));  //Log dosyasını oku (File.ReadAllLines)
+        //    DateTime? oncekiZaman = null;
+
+        //    foreach (string satir in satirlar)
+        //    {
+        //        DateTime zaman = ExtractDate(satir); //Her satırdan zamanı çıkar (ExtractDate)
+
+        //        // Tarih bulunamadıysa bu satırı atla
+        //        if (zaman == DateTime.MinValue)
+        //            continue;
+
+        //        if (oncekiZaman != null)
+        //        {
+        //            TimeSpan fark = zaman - oncekiZaman.Value; //Önceki satırın zamanıyla farkını bul
+
+        //            // 🔸 Eğer iki log arası 15 saniyeden fazla ise
+        //            if (fark.TotalSeconds > 15)
+        //            {
+        //                // O anki satırın tam metnini grid’e ekle
+        //                datagridkontrol.Rows.Add(
+        //                    satir.Trim(),                                  // log içeriği
+        //                    zaman.ToString("dd.MM.yyyy HH:mm:ss")         // zamanı
+                                           
+        //                );
+        //            }
+        //        }
+
+        //        oncekiZaman = zaman; //O anki zamanı önceki zaman olarak kaydet
+        //    }
+
+        //}
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
+        }
+
+      
+     }
     }
-}
+
+    
+
+
+
+
+

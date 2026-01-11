@@ -12,8 +12,8 @@ namespace Logokuma24062025
         public class yemeksepetilog
         {
 
-            // Form seviyesinde (class içine yazılacak)
-            public HashSet<string> islenmisJsonlar = new HashSet<string>();
+            
+            //public HashSet<string> islenmisJsonlar = new HashSet<string>();
             public platformRestaurant platformRestaurant { get; set; }
             public delivery delivery { get; set; }
             public localInfo localInfo { get; set; }
