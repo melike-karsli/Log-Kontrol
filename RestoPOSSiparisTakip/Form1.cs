@@ -153,6 +153,42 @@ namespace RestoPOSSiparisTakip
             return mevcutKlasorler.FirstOrDefault(k => Directory.EnumerateFiles(k, "*.txt").Any()) ?? mevcutKlasorler.FirstOrDefault();
         }
 
+        // Log dosyasını, logu yazan programı (RestoSepet, RCGuard, ...) engellemeden okur.
+        // File.ReadAllLines dosyayı okurken başkasının yazmasını yasakladığı için RestoSepet "Cannot open file ... başka bir işlem
+        // tarafından kullanıldığından" hatası veriyordu. Burada yazmaya izin verilerek açılır, tüm içerik tek seferde belleğe alınıp
+        // dosya hemen kapatılır; satırlara ayırma dosya kapandıktan sonra yapılır.
+        private static string[] LogDosyasiniOku(string dosyaYolu)
+        {
+            byte[] icerik = null;
+
+            // Yazan program dosyayı o an kilitli tutuyorsa birkaç kez kısa aralıklarla tekrar denenir
+            for (int deneme = 1; icerik == null; deneme++)
+            {
+                try
+                {
+                    using (var dosya = new FileStream(dosyaYolu, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+                    using (var bellek = new MemoryStream())
+                    {
+                        dosya.CopyTo(bellek);
+                        icerik = bellek.ToArray();
+                    }
+                }
+                catch (IOException) when (deneme < 5)
+                {
+                    System.Threading.Thread.Sleep(200);
+                }
+            }
+
+            var satirlar = new List<string>();
+            using (var okuyucu = new StringReader(Encoding.GetEncoding("windows-1254").GetString(icerik)))
+            {
+                string satir;
+                while ((satir = okuyucu.ReadLine()) != null)
+                    satirlar.Add(satir);
+            }
+            return satirlar.ToArray();
+        }
+
         // Program her açılışta log klasörlerindeki 5 aydan eski .txt dosyalarını kalıcı olarak siler.
         // Dosyanın tarihi adındaki _yyyyMMdd kısmından alınır (RCGuard_20251031.txt → 31.10.2025); Windows'un değiştirilme
         // tarihi kopyalama/yedeklemede değişebildiği için kullanılmaz. Adında tarih olmayan dosyaya dokunulmaz.
@@ -1526,7 +1562,7 @@ namespace RestoPOSSiparisTakip
 
             //Dosyayı satır satır oku
 
-            string[] satirlar = File.ReadAllLines(dosyaYolu, Encoding.GetEncoding("windows-1254"));
+            string[] satirlar = LogDosyasiniOku(dosyaYolu);
 
             // Trendyol ("Trendyol :"), Yemeksepeti ("OrderData :"), Migros ("Migros :") ve RCGuard ("Gelen Veri : [")
             // siparişleri ortak SİPARİŞ ÖZET / SİPARİŞ DETAY tablolarına yazılıyor.
@@ -1822,7 +1858,7 @@ namespace RestoPOSSiparisTakip
                 //datagridhataraporu.Columns.Add("Sayı", "Hata Sayısı");
             }
 
-            string[] satirlar = File.ReadAllLines(dosyaYolu, Encoding.GetEncoding("windows-1254")); //okur, her satırı bir string dizisine koyar.
+            string[] satirlar = LogDosyasiniOku(dosyaYolu); //okur, her satırı bir string dizisine koyar.
 
             DateTime? sonDurma = null; //Servisin durduğu zamanı saklamak için. Başlangıçta null.
             int hataSayisi = 0; //databasedeki Toplam hata sayısını saymak için.
