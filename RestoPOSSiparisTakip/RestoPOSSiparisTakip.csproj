@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>RestoPOSSiparisTakip</RootNamespace>
     <AssemblyName>RestoPOSSiparisTakip</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -104,6 +104,14 @@
     <Content Include="table_graph_6191.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- .NET 4.5 hedefleme paketi (makinede 4.5 Developer Pack kurulu olmasa da derlemek için) -->
+  <Import Project="..\packages\Microsoft.NETFramework.ReferenceAssemblies.net45.1.0.3\build\Microsoft.NETFramework.ReferenceAssemblies.net45.targets" Condition="Exists('..\packages\Microsoft.NETFramework.ReferenceAssemblies.net45.1.0.3\build\Microsoft.NETFramework.ReferenceAssemblies.net45.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Bu proje bilgisayarda olmayan NuGet paketlerine başvuruyor. Visual Studio'da NuGet Paket Geri Yükleme ile indirin. Eksik dosya: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.NETFramework.ReferenceAssemblies.net45.1.0.3\build\Microsoft.NETFramework.ReferenceAssemblies.net45.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NETFramework.ReferenceAssemblies.net45.1.0.3\build\Microsoft.NETFramework.ReferenceAssemblies.net45.targets'))" />
+  </Target>
   <!-- Release derlemesinden sonra şubeye gönderilecek dosyaları bin\Release\RestoPOSSiparisTakip klasörüne kopyalar -->
   <Target Name="SubeTeslimKopyala" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
     <ItemGroup>

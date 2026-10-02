@@ -4,3 +4,4 @@ obj/
 *.exe
 *.pdb
 .vscode/
+packages/Microsoft.NETFramework.ReferenceAssemblies.*/
