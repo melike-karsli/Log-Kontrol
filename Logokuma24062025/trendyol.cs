@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Logokuma24062025.logokurestosepetclass;
+using static Logokuma24062025.trendyol;
 
 namespace Logokuma24062025
 {
-    internal class logokurestosepetclass
+    internal class trendyol
     {
         public class trendyollog
 
@@ -41,6 +41,8 @@ namespace Logokuma24062025
 
         public class lines
         {
+            public double unitSellingPrice { get; set; }
+            public List<object> items { get; set; }   // her adet için bir eleman
             public List<modifierProducts> modifierProducts { get; set; }
             // public List<extraIngredients> extraIngredients { get; set; }
             //public List<removedIngredients> removedIngredients { get; set; }

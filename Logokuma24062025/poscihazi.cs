@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logokuma24062025
 {
-    internal class logokuclass  // internal olarak Dış bir projeden bu sınıfa erişilemez yanlzıca aynı projedeki dosyalardan erişilebilir
+    internal class poscihazi  // internal olarak Dış bir projeden bu sınıfa erişilemez yanlzıca aynı projedeki dosyalardan erişilebilir
     {
         public class IngenicoData      // publıc herkes erısır
         {

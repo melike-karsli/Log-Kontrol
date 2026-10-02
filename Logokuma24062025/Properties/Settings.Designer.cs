@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LogHataAnaliz.Properties {
+namespace RestoPOSSiparisTakip.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

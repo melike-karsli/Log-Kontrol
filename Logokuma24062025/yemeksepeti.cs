@@ -12,7 +12,7 @@ namespace Logokuma24062025
         public class yemeksepetilog
         {
 
-            
+            public string code { get; set; }
             //public HashSet<string> islenmisJsonlar = new HashSet<string>();
             public platformRestaurant platformRestaurant { get; set; }
             public delivery delivery { get; set; }
@@ -22,6 +22,12 @@ namespace Logokuma24062025
             public List<products> products { get; set; }
             public List<discounts> discounts { get; set; }
             public price price { get; set; }
+            public comments comments { get; set; }
+        }
+
+        public class comments
+        {
+            public string customerComment { get; set; }
         }
 
         public class platformRestaurant
@@ -31,13 +37,15 @@ namespace Logokuma24062025
         }
         public class delivery
         {
-            public address address { get; set; }      
+            public address address { get; set; }
         }
 
         public class address
         {
             public string street { get; set; }
             public string number { get; set; }
+            public string building { get; set; }
+            public string floor { get; set; }
             public string deliveryMainArea { get; set; }
             public string city { get; set; }
            
@@ -62,6 +70,8 @@ namespace Logokuma24062025
         {
             public string name { get; set; }
             public int quantity { get; set; }
+            public string unitPrice { get; set; }
+            public string comment { get; set; }
             public List<selectedToppings> selectedToppings { get; set; }
         }
 
@@ -78,9 +88,10 @@ namespace Logokuma24062025
             public string amount { get; set; }
         }
 
-        public class price 
-        { 
+        public class price
+        {
            public string grandTotal { get; set; }
+           public string discountAmountTotal { get; set; }
         }
 
     }
