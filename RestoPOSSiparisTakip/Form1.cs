@@ -599,7 +599,26 @@ namespace RestoPOSSiparisTakip
 
         private static string SecenekleriBirlestir(IEnumerable<string> secenekler)
         {
-            return string.Join(", ", secenekler.Where(n => !string.IsNullOrWhiteSpace(n) && !SadeceIstemiyorum(n)));
+            return IcerikMetni(secenekler.Where(n => !string.IsNullOrWhiteSpace(n) && !SadeceIstemiyorum(n)));
+        }
+
+        // SİPARİŞ DETAY "İçindekiler": menüde gelen ürünler ilk satırda, "Ekstra Pide İstemiyorum" gibi istenmeyenler
+        // alt satırda yazılır; hepsi yan yana yazılınca hücre çok uzuyor ve okunmuyordu.
+        private static string IcerikMetni(IEnumerable<string> secenekler)
+        {
+            var liste = secenekler.ToList();
+            var istenmeyenler = liste.Where(IstemiyorumSecenegi).ToList();
+            var gelenler = liste.Where(n => !IstemiyorumSecenegi(n)).ToList();
+
+            if (gelenler.Count == 0 || istenmeyenler.Count == 0)
+                return string.Join(", ", liste);
+
+            return string.Join(", ", gelenler) + Environment.NewLine + string.Join(", ", istenmeyenler);
+        }
+
+        private static bool IstemiyorumSecenegi(string secenek)
+        {
+            return (secenek ?? "").Trim().EndsWith("İstemiyorum", true, new CultureInfo("tr-TR"));
         }
 
         // Özet tablodaki Not: sipariş notu + ürünlere yazılmış notlar (hangi ürüne ait olduğuyla birlikte)
@@ -996,6 +1015,19 @@ namespace RestoPOSSiparisTakip
                     ilkSatir ? detay.Adres : "");
                 ilkSatir = false;
             }
+
+            // İçindekiler iki satırlı olabildiği için (bkz. IcerikMetni) hücre satır sonunda alta geçer; kolon en uzun satır kadar
+            // geniş tutulur ki metin sadece o noktada bölünsün, satır yüksekliği de buna göre kendiliğinden artar.
+            var icindekiler = datagridrcguarddetay.Columns["modifierNamesStr"];
+            var yazi = datagridrcguarddetay.DefaultCellStyle.Font ?? datagridrcguarddetay.Font;
+            int enUzunSatir = detay.Urunler
+                .SelectMany(u => (u.ModifierNamesStr ?? "").Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+                .Select(s => TextRenderer.MeasureText(s, yazi).Width)
+                .DefaultIfEmpty(0)
+                .Max();
+            icindekiler.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            icindekiler.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            icindekiler.Width = Math.Max(enUzunSatir + 12, TextRenderer.MeasureText(icindekiler.HeaderText, datagridrcguarddetay.ColumnHeadersDefaultCellStyle.Font ?? yazi).Width + 20);
 
             KolonuBoslugaYay(datagridrcguarddetay, "adres");
         }
@@ -1444,7 +1476,7 @@ namespace RestoPOSSiparisTakip
                     {
                         Adet = Math.Max(menu?.quantity ?? 1, 1),
                         Name = menu?.name ?? "",
-                        ModifierNamesStr = string.Join(", ", altUrunler),
+                        ModifierNamesStr = IcerikMetni(altUrunler),
                         BirimFiyat = FiyatMetni(menu?.price ?? 0),
                         Not = menu?.note ?? ""
                     });
