@@ -104,4 +104,12 @@
     <Content Include="table_graph_6191.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- Release derlemesinden sonra müşteriye verilecek dosyaları Musteri_Teslim klasörüne kopyalar -->
+  <Target Name="MusteriTeslimKopyala" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <TeslimDosyalari Include="$(TargetPath);$(TargetPath).config;$(TargetDir)Newtonsoft.Json.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(TeslimDosyalari)" DestinationFolder="$(MSBuildProjectDirectory)\..\Musteri_Teslim" />
+    <Message Importance="high" Text="Musteri_Teslim klasörü güncellendi" />
+  </Target>
 </Project>
