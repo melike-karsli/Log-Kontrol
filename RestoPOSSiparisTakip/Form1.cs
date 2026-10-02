@@ -251,6 +251,9 @@ namespace RestoPOSSiparisTakip
             return (kaynak_combo.SelectedItem as KaynakSecenegi)?.Dosya;
         }
 
+        // Bu adla başlayan log dosyaları kaynak listesinde gösterilmez
+        private static readonly string[] GizlenenKaynaklar = { "DataKontrol", "RSKontrol" };
+
         // Kaynak listesi seçilen tarihe göre doldurulur: sadece o gün için dosyası olan kaynaklar görünür
         // (LOG YAZDIR "<kaynak>_<yyyyMMdd>.txt" dosyasını açtığı için yalnızca bu tam adla eşleşen dosyalar sayılır).
         // Tarih değişince liste yenilenir; önceki seçim yeni günde de varsa seçili kalır.
@@ -274,8 +277,8 @@ namespace RestoPOSSiparisTakip
 
                     string kaynakAdi = eslesme.Groups[1].Value;
 
-                    // DataKontrolSrvc logları sipariş/fiş içermediği için listelenmez
-                    if (kaynakAdi.StartsWith("DataKontrol", StringComparison.OrdinalIgnoreCase)) continue;
+                    // DataKontrolSrvc ve RSKontrol logları sipariş/fiş içermediği için listelenmez
+                    if (GizlenenKaynaklar.Any(g => kaynakAdi.StartsWith(g, StringComparison.OrdinalIgnoreCase))) continue;
 
                     if (!kaynak_combo.Items.Cast<KaynakSecenegi>().Any(k => k.Dosya.Equals(kaynakAdi, StringComparison.OrdinalIgnoreCase)))
                         kaynak_combo.Items.Add(new KaynakSecenegi(kaynakAdi));
