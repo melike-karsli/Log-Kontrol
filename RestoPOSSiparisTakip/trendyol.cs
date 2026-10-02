@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Logokuma24062025.trendyol;
+using static RestoPOSSiparisTakip.trendyol;
 
-namespace Logokuma24062025
+namespace RestoPOSSiparisTakip
 {
     internal class trendyol
     {

@@ -1,4 +1,4 @@
-﻿namespace Logokuma24062025
+﻿namespace RestoPOSSiparisTakip
 {
     partial class DatagridForm
     {

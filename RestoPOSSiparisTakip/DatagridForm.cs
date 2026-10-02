@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Logokuma24062025
+namespace RestoPOSSiparisTakip
 {
     public partial class DatagridForm : Form
     {

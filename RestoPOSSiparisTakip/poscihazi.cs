@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logokuma24062025
+namespace RestoPOSSiparisTakip
 {
     internal class poscihazi  // internal olarak Dış bir projeden bu sınıfa erişilemez yanlzıca aynı projedeki dosyalardan erişilebilir
     {

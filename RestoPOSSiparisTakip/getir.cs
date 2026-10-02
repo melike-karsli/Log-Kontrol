@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logokuma24062025
+namespace RestoPOSSiparisTakip
 {
     internal class getir
     {

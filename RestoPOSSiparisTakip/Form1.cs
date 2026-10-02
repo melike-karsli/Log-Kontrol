@@ -19,7 +19,7 @@ using Newtonsoft.Json.Linq; // Newtonsoft.Json kütüphanesi ile JSON verileri i
 
 
 
-namespace Logokuma24062025
+namespace RestoPOSSiparisTakip
 {
     public partial class Form1 : Form
     {

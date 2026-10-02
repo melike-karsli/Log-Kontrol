@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Logokuma24062025
+namespace RestoPOSSiparisTakip
 {
     internal static class Program
     {
