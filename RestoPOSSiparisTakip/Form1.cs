@@ -133,6 +133,26 @@ namespace RestoPOSSiparisTakip
         }
 
 
+        // Log dosyalarının arandığı klasörler: RestoPOS kurulumunda C:/D:\RestoPOS\MY\LOG, bazı müşterilerde C:/D:\RestoSEPET\MY\LOG
+        private static readonly string[] LogKlasorleri =
+        {
+            @"C:\RestoPOS\MY\LOG\",
+            @"D:\RestoPOS\MY\LOG\",
+            @"C:\RestoSEPET\MY\LOG\",
+            @"D:\RestoSEPET\MY\LOG\"
+        };
+
+        private const string LogKlasoruYokMesaji = "LOG klasörü bulunamadı.\n\nAranan klasörler:\n" +
+            @"C:\RestoPOS\MY\LOG" + "\n" + @"D:\RestoPOS\MY\LOG" + "\n" + @"C:\RestoSEPET\MY\LOG" + "\n" + @"D:\RestoSEPET\MY\LOG";
+
+        // Var olan ilk LOG klasörü (yoksa null). İçinde .txt olan klasör öncelikli: boş bir RestoPOS\MY\LOG,
+        // RestoSEPET\MY\LOG içindeki asıl logların önüne geçmesin.
+        private static string LogKlasoru()
+        {
+            var mevcutKlasorler = LogKlasorleri.Where(Directory.Exists).ToList();
+            return mevcutKlasorler.FirstOrDefault(k => Directory.EnumerateFiles(k, "*.txt").Any()) ?? mevcutKlasorler.FirstOrDefault();
+        }
+
         // Program her açılışta log klasörlerindeki 5 aydan eski .txt dosyalarını kalıcı olarak siler.
         // Dosyanın tarihi adındaki _yyyyMMdd kısmından alınır (RCGuard_20251031.txt → 31.10.2025); Windows'un değiştirilme
         // tarihi kopyalama/yedeklemede değişebildiği için kullanılmaz. Adında tarih olmayan dosyaya dokunulmaz.
@@ -140,7 +160,7 @@ namespace RestoPOSSiparisTakip
         {
             DateTime sinir = DateTime.Today.AddMonths(-5);
 
-            foreach (string klasor in new[] { @"C:\RestoPOS\MY\LOG\", @"D:\RestoPOS\MY\LOG\" })
+            foreach (string klasor in LogKlasorleri)
             {
                 if (!Directory.Exists(klasor)) continue;
 
@@ -206,7 +226,7 @@ namespace RestoPOSSiparisTakip
             kaynak_combo.BeginUpdate();
             kaynak_combo.Items.Clear();
 
-            string klasorYolu = new[] { @"C:\RestoPOS\MY\LOG\", @"D:\RestoPOS\MY\LOG\" }.FirstOrDefault(Directory.Exists);
+            string klasorYolu = LogKlasoru();
 
             if (klasorYolu != null)
             {
@@ -1469,28 +1489,11 @@ namespace RestoPOSSiparisTakip
 
 
 
-            // Kullanılabilecek klasör yolları
-            string[] muhtemelKlasorler =
-            {
-                @"C:\RestoPOS\MY\LOG\",
-                @"D:\RestoPOS\MY\LOG\"
-            };
-
-            string klasorYolu = null;
-
-            // C ve D sürücüsünde klasörü ara
-            foreach (string yol in muhtemelKlasorler)
-            {
-                if (Directory.Exists(yol))
-                {
-                    klasorYolu = yol;
-                    break;
-                }
-            }
+            string klasorYolu = LogKlasoru();
 
             if (klasorYolu == null)
             {
-                MessageBox.Show("LOG klasörü C: veya D: sürücüsünde bulunamadı.");
+                MessageBox.Show(LogKlasoruYokMesaji);
                 return;
             }
 
@@ -1775,28 +1778,11 @@ namespace RestoPOSSiparisTakip
         private void HataRaporuOlustur()
         {
 
-            // Aranacak klasör yolları
-            string[] muhtemelKlasorler =
-            {
-                @"C:\RestoPOS\MY\LOG\",
-                @"D:\RestoPOS\MY\LOG\"
-            };
-
-            string klasorYolu = null;
-
-            // Mevcut olanı bul
-            foreach (string yol in muhtemelKlasorler)
-            {
-                if (Directory.Exists(yol))
-                {
-                    klasorYolu = yol;
-                    break;
-                }
-            }
+            string klasorYolu = LogKlasoru();
 
             if (klasorYolu == null)
             {
-                MessageBox.Show("LOG klasörü C: veya D: sürücüsünde bulunamadı.");
+                MessageBox.Show(LogKlasoruYokMesaji);
                 return;
             }
 
